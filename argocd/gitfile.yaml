@@ -11,13 +11,13 @@ spec:
       - path: "config/**/config.json"
   template:
     metadata:
-      name: '{{cluster.name}}-guestbook'
+      name: '{{path.basename}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/rhiadc1/gitops-api.git
         targetRevision: HEAD
-        path: "config/apps/v1"
+        path: "config/apps"
       destination:
         server: '{{cluster.address}}'
-        namespace: guestbook
+        namespace: '{{path.basename}}'
