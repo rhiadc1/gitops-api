@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/rhiadc1/gitops-api.git
+      revision: HEAD
+      files:
+      - path: "config/**/config.json"
+  template:
+    metadata:
+      name: '{{cluster.name}}-guestbook'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/rhiadc1/gitops-api.git
+        targetRevision: HEAD
+        path: "config/apps/v1"
+      destination:
+        server: '{{cluster.address}}'
+        namespace: guestbook
